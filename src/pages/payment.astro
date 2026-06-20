@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PaymentOptions from '@components/PaymentOptions.astro';
+---
+
+<BaseLayout title="Payment Options" description="Pay for Zenzeni Africa Safari bookings with prepared M-Pesa STK Push and card payment frontend flows.">
+  <section class="py-20">
+    <div class="container-page">
+      <p class="eyebrow">Payments</p>
+      <h1 class="mt-3 font-display text-5xl font-bold text-savanna-bark">M-Pesa and card payment options.</h1>
+      <p class="mt-5 max-w-3xl leading-8 text-stone-700">This frontend is ready for backend provider connection. Use the booking reference from your confirmed quote when paying.</p>
+      <div class="mt-10">
+        <PaymentOptions />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

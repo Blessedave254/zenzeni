@@ -1,0 +1,12 @@
+---
+import type { Activity } from '@data/activities';
+const { item } = Astro.props as { item: Activity };
+---
+
+<article class="overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-savanna-sand/60">
+  <img class="h-44 w-full object-cover" src={item.image} alt={item.title} loading="lazy" />
+  <div class="p-5">
+    <h3 class="font-display text-xl font-bold text-savanna-bark">{item.title}</h3>
+    <p class="mt-2 text-sm leading-6 text-stone-600">{item.description}</p>
+  </div>
+</article>

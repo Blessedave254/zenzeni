@@ -1,0 +1,22 @@
+---
+type ItineraryStop = {
+  day: number;
+  title: string;
+  description: string;
+};
+
+const { itinerary, durationDays } = Astro.props as { itinerary: ItineraryStop[]; durationDays: number };
+---
+
+<div class="space-y-4">
+  {durationDays === 1 && <p class="rounded-2xl bg-savanna-sky p-4 text-sm font-bold text-savanna-bark">One-day package plan</p>}
+  {itinerary.map((stop) => (
+    <div class="relative rounded-2xl bg-white p-5 shadow-soft ring-1 ring-savanna-sand/60">
+      <p class="text-xs font-black uppercase tracking-[0.18em] text-savanna-clay">
+        {durationDays === 1 ? 'Day plan' : `Day ${stop.day}`}
+      </p>
+      <h3 class="mt-2 font-display text-xl font-bold text-savanna-bark">{stop.title}</h3>
+      <p class="mt-2 text-sm leading-6 text-stone-600">{stop.description}</p>
+    </div>
+  ))}
+</div>

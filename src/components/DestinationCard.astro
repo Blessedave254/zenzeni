@@ -1,0 +1,15 @@
+---
+import type { Destination } from '@data/destinations';
+const { item } = Astro.props as { item: Destination };
+---
+
+<article class="group overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-savanna-sand/60 transition hover:-translate-y-1">
+  <a href={`/destinations/${item.slug}`}>
+    <img class="h-56 w-full object-cover transition duration-500 group-hover:scale-105" src={item.image} alt={item.title} loading="lazy" />
+  </a>
+  <div class="p-5">
+    <p class="text-xs font-black uppercase tracking-[0.18em] text-savanna-clay">{item.region}</p>
+    <h3 class="mt-2 font-display text-2xl font-bold text-savanna-bark"><a href={`/destinations/${item.slug}`}>{item.title}</a></h3>
+    <p class="mt-3 text-sm leading-6 text-stone-600">{item.summary}</p>
+  </div>
+</article>

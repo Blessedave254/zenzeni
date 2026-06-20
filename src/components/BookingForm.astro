@@ -1,0 +1,51 @@
+---
+import { packages } from '@data/packages';
+const selectedPackage = Astro.props.selectedPackage ?? '';
+const selected = packages.find((item) => item.title === selectedPackage || item.slug === selectedPackage);
+---
+
+<form class="grid gap-5 rounded-2xl bg-white p-6 shadow-soft ring-1 ring-savanna-sand/60" method="post" action="/api/bookings">
+  <input type="hidden" name="source" value="website" />
+  <div class="grid gap-5 md:grid-cols-2">
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Full name
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" name="fullName" required autocomplete="name" />
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Email
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="email" name="email" required autocomplete="email" />
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Phone number
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="tel" name="phone" required autocomplete="tel" />
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Package selected
+      <select class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" name="package" required>
+        <option value="">Select package</option>
+        {packages.map((item) => <option value={item.slug} selected={selected?.slug === item.slug}>{item.title}</option>)}
+      </select>
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Adults
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="number" name="adults" min="1" value="2" required />
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Children
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="number" name="children" min="0" value="0" />
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Travel date
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="date" name="travelDate" required />
+    </label>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Total amount
+      <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="number" name="totalAmount" min="0" value={selected?.price ?? ''} placeholder="Quoted amount" />
+    </label>
+  </div>
+  <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+    Special request
+    <textarea class="min-h-32 rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" name="specialRequest" placeholder="Dietary needs, room preferences, celebration details, accessibility, or custom routing"></textarea>
+  </label>
+  <button class="btn-primary w-full sm:w-auto" type="submit">Submit booking</button>
+</form>

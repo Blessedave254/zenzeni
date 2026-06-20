@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import { blogs } from '@data/blogs';
+---
+
+<BaseLayout title="Kenya Travel Blog" description="Read safari planning guides, Kenya destination tips, beach holiday ideas, and practical travel advice from Zenzeni Africa Safari.">
+  <section class="py-20">
+    <div class="container-page">
+      <p class="eyebrow">Travel blog</p>
+      <h1 class="mt-3 font-display text-5xl font-bold text-savanna-bark">Safari guides, beach ideas, and Kenya travel planning notes.</h1>
+      <div class="mt-10 grid gap-7 lg:grid-cols-3">
+        {blogs.map((item) => <BlogCard item={item} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

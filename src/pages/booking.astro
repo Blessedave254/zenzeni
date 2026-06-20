@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BookingForm from '@components/BookingForm.astro';
+---
+
+<BaseLayout title="Book a Kenya Safari or Travel Package" description="Submit your booking request for a Zenzeni Africa Safari package, custom itinerary, airport transfer, hotel booking, or corporate excursion.">
+  <section class="py-20">
+    <div class="container-page grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <p class="eyebrow">Booking</p>
+        <h1 class="mt-3 font-display text-5xl font-bold text-savanna-bark">Start your booking request.</h1>
+        <p class="mt-5 leading-8 text-stone-700">Send your travel details and we will confirm availability, final pricing, itinerary details, and payment steps.</p>
+      </div>
+      <BookingForm />
+    </div>
+  </section>
+</BaseLayout>

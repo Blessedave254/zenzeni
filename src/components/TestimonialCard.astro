@@ -1,0 +1,11 @@
+---
+const { item } = Astro.props;
+---
+
+<figure class="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-savanna-sand/60">
+  <blockquote class="text-sm leading-7 text-stone-700">“{item.quote}”</blockquote>
+  <figcaption class="mt-5">
+    <p class="font-bold text-savanna-bark">{item.name}</p>
+    <p class="text-sm text-stone-500">{item.location}</p>
+  </figcaption>
+</figure>

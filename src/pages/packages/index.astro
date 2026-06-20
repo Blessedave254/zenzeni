@@ -1,0 +1,19 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PackageCard from '@components/PackageCard.astro';
+import CTASection from '@components/CTASection.astro';
+import { packages } from '@data/packages';
+---
+
+<BaseLayout title="Kenya Tour Packages" description="Browse Kenya safari packages, beach holidays, hiking trips, team retreats, and custom tour packages from Zenzeni Africa Safari.">
+  <section class="py-20">
+    <div class="container-page">
+      <p class="eyebrow">Tour packages</p>
+      <h1 class="mt-3 font-display text-5xl font-bold text-savanna-bark">Bookable Kenya safari, beach, and adventure packages.</h1>
+      <div class="mt-10 grid gap-7 lg:grid-cols-3">
+        {packages.map((item) => <PackageCard item={item} />)}
+      </div>
+    </div>
+  </section>
+  <CTASection title="Need a custom package?" text="Share your travel dates and preferred destinations. We can adjust nights, lodges, transport, and activities around your group." />
+</BaseLayout>

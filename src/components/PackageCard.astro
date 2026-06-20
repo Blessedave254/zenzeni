@@ -1,0 +1,25 @@
+---
+import type { TourPackage } from '@data/packages';
+const { item } = Astro.props as { item: TourPackage };
+---
+
+<article class="group overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-savanna-sand/60 transition hover:-translate-y-1 hover:shadow-xl">
+  <a href={`/packages/${item.slug}`} class="block">
+    <img class="h-64 w-full object-cover transition duration-500 group-hover:scale-105" src={item.image} alt={item.title} loading="lazy" />
+  </a>
+  <div class="p-6">
+    <div class="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-savanna-clay">
+      <span>{item.location}</span>
+      <span>•</span>
+      <span>{item.durationDays} {item.durationDays === 1 ? 'day' : 'days'}</span>
+    </div>
+    <h3 class="mt-3 font-display text-2xl font-bold text-savanna-bark">
+      <a href={`/packages/${item.slug}`}>{item.title}</a>
+    </h3>
+    <p class="mt-3 text-sm leading-6 text-stone-600">{item.shortDescription}</p>
+    <div class="mt-5 flex items-center justify-between gap-4">
+      <p class="font-bold text-savanna-bark">From ${item.price}</p>
+      <a class="text-sm font-black text-savanna-clay hover:text-savanna-bark" href={`/packages/${item.slug}`}>View details</a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HeroSlider from '@components/HeroSlider.astro';
+import PackageCard from '@components/PackageCard.astro';
+import DestinationCard from '@components/DestinationCard.astro';
+import ActivityCard from '@components/ActivityCard.astro';
+import BlogCard from '@components/BlogCard.astro';
+import TestimonialCard from '@components/TestimonialCard.astro';
+import CTASection from '@components/CTASection.astro';
+import { packages } from '@data/packages';
+import { destinations } from '@data/destinations';
+import { activities } from '@data/activities';
+import { blogs } from '@data/blogs';
+import { testimonials } from '@data/testimonials';
+---
+
+<BaseLayout title="Kenya Safari Tours, Beach Holidays and Travel Packages" description="Book premium Kenya safaris, beach holidays, corporate excursions, hiking trips, and custom travel packages with Zenzeni Africa Safari.">
+  <HeroSlider />
+
+  <section class="py-20">
+    <div class="container-page">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="eyebrow">Featured destinations</p>
+          <h2 class="section-title mt-3">Kenya places worth slowing down for</h2>
+        </div>
+        <a href="/destinations" class="btn-secondary">View all destinations</a>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {destinations.slice(0, 4).map((item) => <DestinationCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20">
+    <div class="container-page">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="eyebrow">Popular packages</p>
+          <h2 class="section-title mt-3">Safari and coast trips ready to book</h2>
+        </div>
+        <a href="/packages" class="btn-primary">Browse packages</a>
+      </div>
+      <div class="mt-10 grid gap-7 lg:grid-cols-3">
+        {packages.slice(0, 3).map((item) => <PackageCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container-page">
+      <p class="eyebrow">Activities</p>
+      <h2 class="section-title mt-3">Travel styles for every kind of guest</h2>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {activities.slice(0, 8).map((item) => <ActivityCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-savanna-sky py-20">
+    <div class="container-page grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+      <div>
+        <p class="eyebrow">Why choose us</p>
+        <h2 class="section-title mt-3">Local knowledge, premium planning, clear communication.</h2>
+        <p class="mt-5 text-sm leading-7 text-stone-700">Zenzeni Africa Safari designs journeys with reliable partners, thoughtful routing, flexible support, and honest guidance so travellers feel looked after from first enquiry to final transfer.</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {['Trusted Kenya-based planning', 'Private and group options', 'M-Pesa and card-ready booking', 'Safari, coast, corporate, and custom trips'].map((item) => (
+          <div class="rounded-2xl bg-white p-5 shadow-soft">
+            <p class="font-bold text-savanna-bark">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container-page">
+      <p class="eyebrow">Guest stories</p>
+      <h2 class="section-title mt-3">Travel that feels carefully handled</h2>
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        {testimonials.map((item) => <TestimonialCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20">
+    <div class="container-page">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="eyebrow">Safari notes</p>
+          <h2 class="section-title mt-3">Planning guides from our team</h2>
+        </div>
+        <a href="/blog" class="btn-secondary">Read blog</a>
+      </div>
+      <div class="mt-10 grid gap-7 lg:grid-cols-3">
+        {blogs.map((item) => <BlogCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>

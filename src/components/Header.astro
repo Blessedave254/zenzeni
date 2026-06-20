@@ -1,0 +1,40 @@
+---
+import { navigation, site } from '@data/site';
+---
+
+<header class="sticky top-0 z-50 border-b border-savanna-sand/70 bg-savanna-cream/95 backdrop-blur">
+  <nav class="container-page flex min-h-20 items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-3" aria-label={`${site.name} home`}>
+      <span class="grid h-11 w-11 place-items-center rounded-full bg-savanna-bark font-display text-lg font-bold text-white">ZA</span>
+      <span class="leading-tight">
+        <span class="block font-display text-xl font-bold text-savanna-bark">Zenzeni</span>
+        <span class="block text-xs font-bold uppercase tracking-[0.18em] text-savanna-clay">Africa Safari</span>
+      </span>
+    </a>
+
+    <div class="hidden items-center gap-7 lg:flex">
+      {navigation.map((item) => (
+        <a class="text-sm font-bold text-stone-700 transition hover:text-savanna-clay" href={item.href}>{item.label}</a>
+      ))}
+    </div>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a class="btn-secondary px-5 py-2.5" href="/contact">Talk to us</a>
+      <a class="btn-primary px-5 py-2.5" href="/booking">Book now</a>
+    </div>
+
+    <details class="group relative lg:hidden">
+      <summary class="list-none rounded-full border border-savanna-bark/20 bg-white px-4 py-2 text-sm font-bold text-savanna-bark">
+        Menu
+      </summary>
+      <div class="absolute right-0 mt-3 w-72 overflow-hidden rounded-2xl border border-savanna-sand bg-white shadow-soft">
+        <div class="grid p-2">
+          {navigation.map((item) => (
+            <a class="rounded-xl px-4 py-3 text-sm font-bold text-stone-700 hover:bg-savanna-cream hover:text-savanna-bark" href={item.href}>{item.label}</a>
+          ))}
+          <a class="mt-2 rounded-xl bg-savanna-bark px-4 py-3 text-center text-sm font-bold text-white" href="/booking">Book now</a>
+        </div>
+      </div>
+    </details>
+  </nav>
+</header>

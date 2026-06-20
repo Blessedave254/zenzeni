@@ -1,0 +1,19 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ActivityCard from '@components/ActivityCard.astro';
+import CTASection from '@components/CTASection.astro';
+import { activities } from '@data/activities';
+---
+
+<BaseLayout title="Safari Activities and Travel Services" description="Discover wildlife safaris, beach holidays, honeymoons, team building, corporate excursions, transfers, hotel bookings, hiking, waterfalls, culture, and photography tours.">
+  <section class="py-20">
+    <div class="container-page">
+      <p class="eyebrow">Activities</p>
+      <h1 class="mt-3 font-display text-5xl font-bold text-savanna-bark">Choose your travel style.</h1>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {activities.map((item) => <ActivityCard item={item} />)}
+      </div>
+    </div>
+  </section>
+  <CTASection />
+</BaseLayout>

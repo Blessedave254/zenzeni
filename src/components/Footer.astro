@@ -1,0 +1,39 @@
+---
+import { navigation, site } from '@data/site';
+---
+
+<footer class="bg-savanna-bark text-white">
+  <div class="container-page grid gap-10 py-14 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+    <div>
+      <p class="font-display text-3xl font-bold">Zenzeni Africa Safari</p>
+      <p class="mt-4 max-w-xl text-sm leading-7 text-white/75">{site.description}</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="btn-secondary border-white/25 bg-white/10 text-white hover:bg-white hover:text-savanna-bark" href="/booking">Plan a trip</a>
+        <a class="btn-secondary border-white/25 bg-white/10 text-white hover:bg-white hover:text-savanna-bark" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </div>
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.2em] text-savanna-gold">Explore</p>
+      <div class="mt-5 grid gap-3">
+        {navigation.map((item) => <a class="text-sm text-white/75 hover:text-white" href={item.href}>{item.label}</a>)}
+      </div>
+    </div>
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.2em] text-savanna-gold">Contact</p>
+      <div class="mt-5 grid gap-3 text-sm text-white/75">
+        <a href={`tel:${site.phone}`}>{site.phone}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <span>{site.address}</span>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-5">
+    <div class="container-page flex flex-col gap-3 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {new Date().getFullYear()} Zenzeni Africa Safari. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+      </div>
+    </div>
+  </div>
+</footer>
