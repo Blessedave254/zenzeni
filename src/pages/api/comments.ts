@@ -6,6 +6,21 @@ export const GET: APIRoute = () =>
   });
 
 export const POST: APIRoute = async ({ request }) => {
+  const contentType = request.headers.get('content-type') ?? '';
+
+  if (!contentType.includes('multipart/form-data') && !contentType.includes('application/x-www-form-urlencoded')) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        message: 'Comments must be submitted from the comment form.'
+      }),
+      {
+        status: 400,
+        headers: { 'content-type': 'application/json' }
+      }
+    );
+  }
+
   const formData = await request.formData();
   const comment = Object.fromEntries(formData);
 
