@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BlogSidebar from '@components/BlogSidebar.astro';
+import CommentSection from '@components/CommentSection.astro';
 import CTASection from '@components/CTASection.astro';
 import { blogs } from '@data/blogs';
 import { site } from '@data/site';
@@ -36,6 +37,7 @@ const schema = {
         <div class="mt-8 flex flex-wrap gap-2">
           {item.tags.map((tag) => <span class="rounded-full bg-savanna-cream px-4 py-2 text-sm font-bold text-savanna-bark">{tag}</span>)}
         </div>
+        <CommentSection postSlug={item.slug} />
       </div>
       <BlogSidebar currentSlug={item.slug} />
     </div>

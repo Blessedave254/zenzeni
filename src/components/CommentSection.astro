@@ -1,0 +1,58 @@
+---
+const { postSlug } = Astro.props as { postSlug: string };
+
+const sampleComments = [
+  {
+    name: 'Grace Wanjiku',
+    date: 'May 2, 2026',
+    comment: 'Very helpful guide. The packing tips are practical, especially the reminder about warm layers for early morning drives.'
+  },
+  {
+    name: 'Daniel Otieno',
+    date: 'May 8, 2026',
+    comment: 'I would love a follow-up article on camera gear and binocular recommendations for first-time safari travellers.'
+  }
+];
+---
+
+<section class="mt-12 rounded-2xl bg-savanna-cream p-6 ring-1 ring-savanna-sand/70">
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="eyebrow">Comments</p>
+      <h2 class="mt-2 font-display text-3xl font-bold text-savanna-bark">Join the conversation</h2>
+    </div>
+    <p class="text-sm font-bold text-stone-500">{sampleComments.length} comments</p>
+  </div>
+
+  <div class="mt-6 grid gap-4">
+    {sampleComments.map((item) => (
+      <article class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-savanna-sand/60">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="font-bold text-savanna-bark">{item.name}</h3>
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-savanna-clay">{item.date}</p>
+        </div>
+        <p class="mt-3 text-sm leading-7 text-stone-600">{item.comment}</p>
+      </article>
+    ))}
+  </div>
+
+  <form class="mt-8 grid gap-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-savanna-sand/60" method="post" action="/api/comments">
+    <input type="hidden" name="postSlug" value={postSlug} />
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+        Name
+        <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" name="name" required autocomplete="name" />
+      </label>
+      <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+        Email
+        <input class="rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" type="email" name="email" required autocomplete="email" />
+      </label>
+    </div>
+    <label class="grid gap-2 text-sm font-bold text-savanna-bark">
+      Comment
+      <textarea class="min-h-32 rounded-xl border border-savanna-sand bg-savanna-cream px-4 py-3 font-normal text-stone-800" name="comment" required placeholder="Share your question or travel tip"></textarea>
+    </label>
+    <button class="btn-primary w-full sm:w-auto" type="submit">Post comment</button>
+    <p class="text-xs leading-5 text-stone-500">Comments are prepared for moderation and backend storage integration.</p>
+  </form>
+</section>

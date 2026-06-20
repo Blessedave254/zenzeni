@@ -1,0 +1,18 @@
+---
+import { site } from '@data/site';
+
+const phone = site.whatsapp.replace(/\D/g, '');
+const message = encodeURIComponent('Hello Zenzeni Africa Safaris, I would like help planning a trip.');
+const href = `https://wa.me/${phone}?text=${message}`;
+---
+
+<a
+  class="fixed bottom-6 right-4 z-50 flex items-center gap-3 rounded-full bg-[#25D366] px-5 py-3 text-sm font-black text-white shadow-[0_18px_35px_rgba(37,211,102,0.35)] transition hover:-translate-y-1 hover:bg-[#1ebe5d] sm:right-6"
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Chat with Zenzeni Africa Safaris on WhatsApp"
+>
+  <span class="grid h-8 w-8 place-items-center rounded-full bg-white text-xs font-black text-[#128C7E]">WA</span>
+  <span class="hidden sm:inline">WhatsApp</span>
+</a>
