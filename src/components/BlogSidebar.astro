@@ -1,0 +1,60 @@
+---
+import type { BlogPost } from '@data/blogs';
+import type { TourPackage } from '@data/packages';
+import { blogs } from '@data/blogs';
+import { packages } from '@data/packages';
+
+const { currentSlug = '' } = Astro.props as { currentSlug?: string };
+
+const latestPosts = [...blogs]
+  .filter((post) => post.slug !== currentSlug)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 4) as BlogPost[];
+
+const latestPackages = packages.slice(0, 4) as TourPackage[];
+const tags = [...new Set(blogs.flatMap((post) => post.tags))].sort();
+---
+
+<aside class="space-y-6 lg:sticky lg:top-28">
+  <section class="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-savanna-sand/60">
+    <p class="eyebrow">Latest posts</p>
+    <div class="mt-5 grid gap-5">
+      {latestPosts.map((post) => (
+        <a class="group grid grid-cols-[5rem_1fr] gap-4" href={`/blog/${post.slug}`}>
+          <img class="h-20 w-20 rounded-xl object-cover" src={post.image} alt={post.title} loading="lazy" />
+          <span>
+            <span class="block text-xs font-bold uppercase tracking-[0.14em] text-savanna-clay">
+              {new Date(post.date).toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </span>
+            <span class="mt-1 block text-sm font-bold leading-5 text-savanna-bark group-hover:text-savanna-clay">{post.title}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-savanna-sand/60">
+    <p class="eyebrow">Latest packages</p>
+    <div class="mt-5 grid gap-4">
+      {latestPackages.map((item) => (
+        <a class="rounded-xl border border-savanna-sand/70 p-4 transition hover:border-savanna-gold hover:bg-savanna-cream" href={`/packages/${item.slug}`}>
+          <span class="block text-sm font-bold text-savanna-bark">{item.title}</span>
+          <span class="mt-1 block text-xs font-bold uppercase tracking-[0.14em] text-savanna-clay">
+            {item.location} • {item.durationDays} {item.durationDays === 1 ? 'day' : 'days'} • From ${item.price}
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="rounded-2xl bg-savanna-sky p-6">
+    <p class="eyebrow">Tags</p>
+    <div class="mt-5 flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <a class="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-savanna-bark transition hover:bg-savanna-gold" href={`/blog?tag=${encodeURIComponent(tag)}`}>
+          {tag}
+        </a>
+      ))}
+    </div>
+  </section>
+</aside>

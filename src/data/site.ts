@@ -1,12 +1,12 @@
 export const site = {
-  name: 'Zenzeni Africa Safari',
+  name: 'Zenzeni Africa Safaris',
   url: 'https://zenzeniafricasafari.com',
   email: 'bookings@zenzeniafricasafari.com',
   phone: '+254 712 345 678',
   whatsapp: '+254 712 345 678',
   address: 'Nairobi, Kenya',
   description:
-    'Premium Kenya safari, beach holiday, corporate travel, and custom tour planning with trusted local experts.',
+    'Premium Kenya safaris, beach holidays, corporate travel, and custom tour planning with trusted local experts.',
   social: {
     facebook: 'https://facebook.com/zenzeniafricasafari',
     instagram: 'https://instagram.com/zenzeniafricasafari',
