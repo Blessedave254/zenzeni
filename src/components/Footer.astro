@@ -1,9 +1,12 @@
 ---
+import { packages } from '@data/packages';
 import { navigation, site } from '@data/site';
+
+const footerPackages = packages.slice(0, 5);
 ---
 
 <footer class="bg-savanna-bark text-white">
-  <div class="container-page grid gap-10 py-14 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
+  <div class="container-page grid gap-10 py-14 md:grid-cols-2 xl:grid-cols-[1.25fr_0.55fr_0.85fr_0.75fr]">
     <div>
       <div class="flex items-center gap-4">
         <span class="grid h-20 w-20 place-items-center rounded-full bg-savanna-cream p-2">
@@ -21,6 +24,13 @@ import { navigation, site } from '@data/site';
       <p class="text-sm font-black uppercase tracking-[0.2em] text-savanna-gold">Explore</p>
       <div class="mt-5 grid gap-3">
         {navigation.map((item) => <a class="text-sm text-white/75 hover:text-white" href={item.href}>{item.label}</a>)}
+      </div>
+    </div>
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.2em] text-savanna-gold">Packages</p>
+      <div class="mt-5 grid gap-3">
+        {footerPackages.map((item) => <a class="text-sm text-white/75 hover:text-white" href={`/packages/${item.slug}`}>{item.title}</a>)}
+        <a class="text-sm font-bold text-savanna-gold hover:text-white" href="/packages">View all packages</a>
       </div>
     </div>
     <div>
