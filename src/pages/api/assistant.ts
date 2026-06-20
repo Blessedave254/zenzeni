@@ -208,12 +208,40 @@ const fallback = () => ({
   ]
 });
 
+const hasGreeting = (question: string) => /\b(hi|hello|hey|jambo|sasa|mambo|habari|good morning|good afternoon|good evening)\b/.test(normalize(question));
+const hasWellbeingQuestion = (question: string) => /\b(how are you|how is your day|uko aje|how are things)\b/.test(normalize(question));
+const hasTravelIntent = (question: string) =>
+  /\b(package|packages|safari|trip|tour|destination|destinations|price|cost|book|booking|pay|payment|mpesa|card|honeymoon|beach|diani|watamu|malindi|mara|maasai|amboseli|tsavo|nakuru|naivasha|hells gate|mount kenya|aberdare|karura|thomson|fourteen|wildlife|hiking|waterfall|team building|corporate|airport|hotel|culture|photography)\b/.test(
+    normalize(question)
+  );
+
+const greetingAnswer = (askedWellbeing = false) => ({
+  answer: askedWellbeing
+    ? 'Hello! I am doing great and ready to help you plan something memorable. How are you doing today, and are you thinking safari, beach, honeymoon, team building, or a quick day trip?'
+    : 'Hello! Welcome to Zenzeni Africa Safaris. How are you doing today, and what kind of trip are you dreaming about?',
+  funFact: 'Kenya is special because you can pair big wildlife areas, Rift Valley lakes, forests, mountains, and Indian Ocean beaches in one itinerary.',
+  links: [
+    { label: 'Browse packages', href: '/packages', meta: 'Safari, beach, hiking, and corporate trips' },
+    { label: 'Explore destinations', href: '/destinations', meta: 'Parks, beaches, forests, waterfalls, and mountains' },
+    { label: 'Start booking', href: '/booking', meta: 'Share dates, group size, and special requests' }
+  ]
+});
+
 const answerQuestion = (question: string) => {
   if (question.length < 2) {
     return { ok: false, message: 'Please ask a travel question.' };
   }
 
   const lowerQuestion = normalize(question);
+  const greetingOnly = (hasGreeting(question) || hasWellbeingQuestion(question)) && !hasTravelIntent(question);
+  if (greetingOnly) {
+    return {
+      ok: true,
+      question,
+      ...greetingAnswer(hasWellbeingQuestion(question))
+    };
+  }
+
   const destinationAnswer = buildDestinationAnswer(question);
   const packageAnswer = buildPackageAnswer(question);
   const activityAnswer = buildActivityAnswer(question);
@@ -225,6 +253,12 @@ const answerQuestion = (question: string) => {
       : packageAnswer ?? destinationAnswer ?? activityAnswer ?? faqAnswer;
 
   result ??= fallback();
+  if (hasGreeting(question)) {
+    result = {
+      ...result,
+      answer: `Hello! ${result.answer}`
+    };
+  }
 
   return {
     ok: true,
