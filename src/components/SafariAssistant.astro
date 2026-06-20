@@ -1,0 +1,321 @@
+---
+import { activities } from '@data/activities';
+import { destinations } from '@data/destinations';
+import { faqs } from '@data/faqs';
+import { packages } from '@data/packages';
+
+const assistantKnowledge = {
+  packages: packages.map((item) => ({
+    title: item.title,
+    slug: item.slug,
+    location: item.location,
+    durationDays: item.durationDays,
+    price: item.price,
+    shortDescription: item.shortDescription,
+    fullDescription: item.fullDescription,
+    activities: item.activities,
+    included: item.included,
+    itinerary: item.itinerary.map((day) => day.title)
+  })),
+  destinations: destinations.map((item) => ({
+    title: item.title,
+    slug: item.slug,
+    region: item.region,
+    summary: item.summary,
+    description: item.description,
+    highlights: item.highlights,
+    bestFor: item.bestFor
+  })),
+  activities: activities.map((item) => ({
+    title: item.title,
+    description: item.description
+  })),
+  faqs,
+  funFacts: {
+    'maasai-mara': 'The Maasai Mara is part of the wider Serengeti-Mara ecosystem.',
+    'amboseli-national-park': 'Amboseli is one of Kenya’s best places to see elephants with Mount Kilimanjaro in the background.',
+    'tsavo-national-park': 'Tsavo’s elephants are famous for their red-dust look from the park’s iron-rich soil.',
+    'lake-nakuru': 'Lake Nakuru is known for rhino conservation and dramatic Rift Valley viewpoints.',
+    'diani-beach': 'Diani’s white sand coast pairs beautifully with a safari itinerary.',
+    watamu: 'Watamu has protected marine areas with coral gardens and excellent snorkeling.',
+    malindi: 'Malindi blends beach relaxation with coastal heritage and food culture.',
+    naivasha: 'Lake Naivasha is a freshwater lake in the Rift Valley and a favorite weekend escape from Nairobi.',
+    'hells-gate': 'Hell’s Gate is one of the few Kenyan parks where visitors can cycle through parts of the park.',
+    'mount-kenya': 'Mount Kenya is Africa’s second-highest mountain.',
+    'aberdare-national-park': 'Aberdare is known for cool highland forests, waterfalls, and atmospheric lodges.',
+    'karura-forest': 'Karura Forest is one of Nairobi’s most loved urban nature escapes.',
+    'thomson-falls': 'Thomson Falls sits near Nyahururu in Kenya’s cool central highlands.',
+    'fourteen-falls': 'Fourteen Falls is named for the multiple cascades across the river.'
+  }
+};
+---
+
+<script is:inline id="safari-assistant-knowledge" type="application/json" set:html={JSON.stringify(assistantKnowledge)} />
+
+<div id="safari-assistant" class="fixed bottom-24 left-4 z-50 sm:left-6">
+  <button
+    id="safari-assistant-toggle"
+    class="flex items-center gap-3 rounded-full bg-savanna-bark px-5 py-3 text-sm font-black text-white shadow-[0_18px_35px_rgba(91,53,31,0.28)] ring-4 ring-white transition hover:-translate-y-1 hover:bg-savanna-cocoa"
+    type="button"
+    aria-expanded="false"
+    aria-controls="safari-assistant-panel"
+  >
+    <span class="grid h-8 w-8 place-items-center rounded-full bg-savanna-gold text-savanna-bark">?</span>
+    <span class="hidden sm:inline">Ask Safari Assistant</span>
+  </button>
+
+  <section
+    id="safari-assistant-panel"
+    class="pointer-events-none absolute bottom-20 left-0 w-[min(22rem,calc(100vw-2rem))] translate-y-3 overflow-hidden rounded-2xl bg-white opacity-0 shadow-[0_22px_55px_rgba(72,46,28,0.24)] ring-1 ring-savanna-sand/70 transition"
+    aria-live="polite"
+  >
+    <div class="bg-savanna-bark p-5 text-white">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.18em] text-savanna-gold">Zenzeni assistant</p>
+          <h2 class="mt-2 font-display text-2xl font-bold">Ask about trips</h2>
+        </div>
+        <button id="safari-assistant-close" class="rounded-full bg-white/10 px-3 py-1 text-sm font-black hover:bg-white/20" type="button" aria-label="Close safari assistant">×</button>
+      </div>
+      <p class="mt-3 text-sm leading-6 text-white/75">Packages, destinations, activities, prices, durations, and fun facts.</p>
+    </div>
+
+    <div id="safari-assistant-messages" class="max-h-80 space-y-3 overflow-y-auto bg-savanna-cream p-4">
+      <div class="rounded-2xl bg-white p-4 text-sm leading-6 text-stone-700 shadow-soft">
+        Hi, I’m your safari planning helper. Ask me things like “best honeymoon package” or “tell me about Lake Nakuru.”
+      </div>
+    </div>
+
+    <div class="border-t border-savanna-sand bg-white p-4">
+      <div class="mb-3 flex flex-wrap gap-2">
+        {['Honeymoon package?', 'One day safari?', 'Tell me about Naivasha'].map((prompt) => (
+          <button class="assistant-prompt rounded-full bg-savanna-cream px-3 py-2 text-xs font-bold text-savanna-bark hover:bg-savanna-sand" type="button" data-prompt={prompt}>
+            {prompt}
+          </button>
+        ))}
+      </div>
+      <form id="safari-assistant-form" class="flex gap-2">
+        <input
+          id="safari-assistant-input"
+          class="min-w-0 flex-1 rounded-full border border-savanna-sand bg-savanna-cream px-4 py-3 text-sm text-stone-800"
+          name="question"
+          placeholder="Ask a travel question"
+          autocomplete="off"
+        />
+        <button class="btn-primary px-4 py-3" type="submit">Send</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<script>
+  type AssistantLink = {
+    label: string;
+    href: string;
+    meta?: string;
+  };
+  type AssistantAnswer = {
+    answer: string;
+    funFact?: string;
+    links: AssistantLink[];
+  };
+
+  type AssistantItem = Record<string, any>;
+
+  const root = document.getElementById('safari-assistant');
+  const toggle = document.getElementById('safari-assistant-toggle');
+  const close = document.getElementById('safari-assistant-close');
+  const panel = document.getElementById('safari-assistant-panel');
+  const form = document.getElementById('safari-assistant-form');
+  const input = document.getElementById('safari-assistant-input');
+  const messages = document.getElementById('safari-assistant-messages');
+  const knowledgeNode = document.getElementById('safari-assistant-knowledge');
+  const knowledge = knowledgeNode?.textContent ? JSON.parse(knowledgeNode.textContent) : {};
+
+  const normalize = (value: string) => value.toLowerCase().replace(/[^\w\s-]/g, ' ');
+  const words = (value: string) => normalize(value).split(/\s+/).filter(Boolean);
+  const scoreText = (query: string, haystack: string) => {
+    const text = normalize(haystack);
+
+    return words(query).reduce((score, word) => {
+      if (text.includes(word)) return score + (word.length > 4 ? 3 : 1);
+      return score;
+    }, 0);
+  };
+
+  const setOpen = (open: boolean) => {
+    panel?.classList.toggle('pointer-events-none', !open);
+    panel?.classList.toggle('translate-y-3', !open);
+    panel?.classList.toggle('opacity-0', !open);
+    toggle?.setAttribute('aria-expanded', String(open));
+  };
+
+  const addMessage = (content: string, tone = 'assistant') => {
+    if (!messages) return;
+
+    const message = document.createElement('div');
+    message.className =
+      tone === 'user'
+        ? 'ml-auto max-w-[85%] rounded-2xl bg-savanna-bark p-4 text-sm leading-6 text-white'
+        : 'max-w-[92%] rounded-2xl bg-white p-4 text-sm leading-6 text-stone-700 shadow-soft';
+    message.innerHTML = content;
+    messages.appendChild(message);
+    messages.scrollTop = messages.scrollHeight;
+  };
+
+  const renderLinks = (links: AssistantLink[]) => {
+    if (!Array.isArray(links) || links.length === 0) return '';
+
+    return `<div class="mt-3 grid gap-2">${links
+      .map(
+        (link) =>
+          `<a class="block rounded-xl border border-savanna-sand bg-savanna-cream p-3 font-bold text-savanna-bark hover:border-savanna-gold" href="${link.href}">
+            ${link.label}
+            <span class="mt-1 block text-xs font-normal leading-5 text-stone-600">${link.meta ?? ''}</span>
+          </a>`
+      )
+      .join('')}</div>`;
+  };
+
+  const packageAnswer = (question: string) => {
+    const lowerQuestion = normalize(question);
+    const ranked = (knowledge.packages ?? [])
+      .map((item: AssistantItem) => {
+        const searchable = [
+          item.title,
+          item.location,
+          item.shortDescription,
+          item.fullDescription,
+          item.activities?.join(' '),
+          item.included?.join(' '),
+          item.itinerary?.join(' '),
+          item.durationDays === 1 ? 'one day day trip short trip' : `${item.durationDays} days multi day`
+        ].join(' ');
+        let score = scoreText(question, searchable);
+
+        if (lowerQuestion.includes('honeymoon') && item.activities?.includes('Honeymoon packages')) score += 8;
+        if (lowerQuestion.includes('beach') && item.activities?.includes('Beach holidays')) score += 8;
+        if (lowerQuestion.includes('team') && item.activities?.includes('Team building')) score += 8;
+        if (lowerQuestion.includes('corporate') && item.activities?.includes('Corporate excursions')) score += 8;
+        if ((lowerQuestion.includes('1 day') || lowerQuestion.includes('one day')) && item.durationDays === 1) score += 8;
+
+        return { item, score };
+      })
+      .sort((a: AssistantItem, b: AssistantItem) => b.score - a.score);
+    const matches = ranked.filter((entry: AssistantItem) => entry.score > 0).slice(0, 3);
+    if (!matches.length) return null;
+
+    const top = matches[0].item;
+    const destination = (knowledge.destinations ?? []).find((item: AssistantItem) => item.title === top.location || top.location.includes(item.title));
+
+    return {
+      answer: `${top.title} is a strong match. It is a ${top.durationDays}-day package in ${top.location}, starting from $${top.price}. ${top.shortDescription}`,
+      funFact: destination ? knowledge.funFacts?.[destination.slug] : undefined,
+      links: matches.map(({ item }: AssistantItem) => ({
+        label: item.title,
+        href: `/packages/${item.slug}`,
+        meta: `${item.location} • ${item.durationDays} ${item.durationDays === 1 ? 'day' : 'days'} • From $${item.price}`
+      }))
+    };
+  };
+
+  const destinationAnswer = (question: string) => {
+    const ranked = (knowledge.destinations ?? [])
+      .map((item: AssistantItem) => ({
+        item,
+        score: scoreText(question, [item.title, item.region, item.summary, item.description, item.highlights?.join(' '), item.bestFor?.join(' ')].join(' '))
+      }))
+      .sort((a: AssistantItem, b: AssistantItem) => b.score - a.score);
+    const matches = ranked.filter((entry: AssistantItem) => entry.score > 0).slice(0, 3);
+    if (!matches.length) return null;
+
+    const top = matches[0].item;
+
+    return {
+      answer: `${top.title} is a great choice for ${top.bestFor.slice(0, 2).join(' and ').toLowerCase()}. ${top.summary}`,
+      funFact: knowledge.funFacts?.[top.slug],
+      links: matches.map(({ item }: AssistantItem) => ({
+        label: item.title,
+        href: `/destinations/${item.slug}`,
+        meta: `${item.region} • ${item.bestFor.slice(0, 2).join(', ')}`
+      }))
+    };
+  };
+
+  const activityAnswer = (question: string) => {
+    const ranked = (knowledge.activities ?? [])
+      .map((item: AssistantItem) => ({ item, score: scoreText(question, `${item.title} ${item.description}`) }))
+      .sort((a: AssistantItem, b: AssistantItem) => b.score - a.score);
+    const match = ranked.find((entry: AssistantItem) => entry.score > 0);
+
+    if (!match) return null;
+
+    return {
+      answer: `For ${match.item.title.toLowerCase()}, Zenzeni Africa Safaris can help with planning, routing, and package matching. ${match.item.description}`,
+      funFact: 'A good Kenya itinerary often combines two moods: active adventure first, then slower relaxation at the coast or a lake.',
+      links: [{ label: 'View activities', href: '/activities', meta: 'Explore safari, coast, hiking, corporate, and cultural options' }]
+    };
+  };
+
+  const faqAnswer = (question: string) => {
+    const ranked = (knowledge.faqs ?? [])
+      .map((item: AssistantItem) => ({ item, score: scoreText(question, `${item.question} ${item.answer}`) }))
+      .sort((a: AssistantItem, b: AssistantItem) => b.score - a.score);
+    const match = ranked.find((entry: AssistantItem) => entry.score > 0);
+
+    if (!match) return null;
+
+    return {
+      answer: match.item.answer,
+      funFact: 'Clear travel planning saves time on safari because transfers, park timing, meals, and lodge check-ins all shape the guest experience.',
+      links: [{ label: 'Read all FAQs', href: '/faq', meta: match.item.question }]
+    };
+  };
+
+  const answerQuestion = (question: string): AssistantAnswer => {
+    const lowerQuestion = normalize(question);
+    const destination = destinationAnswer(question);
+    const safariPackage = packageAnswer(question);
+    const activity = activityAnswer(question);
+    const faq = faqAnswer(question);
+    const fallbackAnswer = {
+      answer:
+        'I can help with Kenya safari packages, destinations, activities, prices, durations, beach holidays, honeymoons, team building, and booking questions.',
+      funFact: 'Kenya trips are often strongest when they combine contrast: savanna wildlife, Rift Valley scenery, and Indian Ocean beach time.',
+      links: [
+        { label: 'Browse packages', href: '/packages', meta: 'Safari, beach, hiking, and corporate trips' },
+        { label: 'Explore destinations', href: '/destinations', meta: 'Parks, beaches, forests, waterfalls, and mountains' },
+        { label: 'Start booking', href: '/booking', meta: 'Send your travel dates and group details' }
+      ]
+    };
+
+    return lowerQuestion.includes('destination') || lowerQuestion.includes('where') || lowerQuestion.includes('tell me about')
+      ? destination ?? safariPackage ?? activity ?? faq ?? fallbackAnswer
+      : safariPackage ?? destination ?? activity ?? faq ?? fallbackAnswer;
+  };
+
+  const askAssistant = async (question: string) => {
+    const cleanQuestion = question.trim();
+    if (!cleanQuestion) return;
+
+    addMessage(cleanQuestion, 'user');
+    const data = answerQuestion(cleanQuestion);
+    const funFact = data.funFact ? `<p class="mt-3 rounded-xl bg-savanna-sky p-3 text-xs leading-5 text-savanna-bark"><strong>Fun fact:</strong> ${data.funFact}</p>` : '';
+    addMessage(`<p>${data.answer}</p>${funFact}${renderLinks(data.links)}`);
+  };
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  close?.addEventListener('click', () => setOpen(false));
+  root?.querySelectorAll('.assistant-prompt').forEach((button) => {
+    button.addEventListener('click', () => {
+      setOpen(true);
+      askAssistant(button.getAttribute('data-prompt') ?? '');
+    });
+  });
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!(input instanceof HTMLInputElement)) return;
+    askAssistant(input.value);
+    input.value = '';
+  });
+</script>
