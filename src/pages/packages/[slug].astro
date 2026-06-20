@@ -42,13 +42,32 @@ const schema = {
           <a class="btn-primary" href="#booking">Book this package</a>
         </div>
       </div>
-      <img class="h-[480px] w-full rounded-2xl object-cover shadow-soft" src={item.image} alt={item.title} />
+      <div class="relative h-[480px] overflow-hidden rounded-2xl bg-gradient-to-br from-savanna-sand via-savanna-cream to-savanna-gold/50 shadow-soft">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(255,255,255,0.72),transparent_32%),linear-gradient(135deg,rgba(91,53,31,0.18),transparent_58%)]"></div>
+        <img
+          class="relative h-full w-full object-cover"
+          src={item.image}
+          alt={item.title}
+          onerror="this.style.display='none'"
+        />
+      </div>
     </div>
   </section>
 
   <section class="py-16">
     <div class="container-page grid gap-4 md:grid-cols-3">
-      {item.gallery.map((image) => <img class="h-64 w-full rounded-2xl object-cover shadow-soft" src={image} alt={`${item.title} gallery`} loading="lazy" />)}
+      {item.gallery.map((image) => (
+        <div class="relative h-64 overflow-hidden rounded-2xl bg-gradient-to-br from-savanna-sand via-savanna-cream to-savanna-gold/50 shadow-soft">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(255,255,255,0.72),transparent_32%),linear-gradient(135deg,rgba(72,101,58,0.2),transparent_58%)]"></div>
+          <img
+            class="relative h-full w-full object-cover"
+            src={image}
+            alt={`${item.title} gallery`}
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+      ))}
     </div>
   </section>
 
