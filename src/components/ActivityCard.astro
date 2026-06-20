@@ -4,7 +4,16 @@ const { item } = Astro.props as { item: Activity };
 ---
 
 <article class="overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-savanna-sand/60">
-  <img class="h-44 w-full object-cover" src={item.image} alt={item.title} loading="lazy" />
+  <div class="relative h-44 overflow-hidden bg-gradient-to-br from-savanna-sand via-savanna-cream to-savanna-gold/50">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(255,255,255,0.75),transparent_32%),linear-gradient(135deg,rgba(91,53,31,0.18),transparent_55%)]"></div>
+    <img
+      class="relative h-full w-full object-cover"
+      src={item.image}
+      alt={item.title}
+      loading="lazy"
+      onerror="this.style.display='none'"
+    />
+  </div>
   <div class="p-5">
     <h3 class="font-display text-xl font-bold text-savanna-bark">{item.title}</h3>
     <p class="mt-2 text-sm leading-6 text-stone-600">{item.description}</p>

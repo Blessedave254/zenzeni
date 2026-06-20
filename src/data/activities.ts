@@ -22,7 +22,7 @@ export const activities: Activity[] = [
     title: 'Honeymoon Packages',
     slug: 'honeymoon-packages',
     description: 'Romantic safari lodges, private beach dinners, and seamless celebration travel.',
-    image: 'https://images.unsplash.com/photo-1523358963456-121c1313c5f2?auto=format&fit=crop&w=900&q=80'
+    image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=80'
   },
   {
     title: 'Team Building',
