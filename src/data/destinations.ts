@@ -91,7 +91,7 @@ export const destinations: Destination[] = [
     title: 'Naivasha',
     slug: 'naivasha',
     region: 'Rift Valley',
-    image: 'https://images.unsplash.com/photo-1549366021-9f761d040a94?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&w=1200&q=80',
     summary: 'Lake stays, boat rides, flower farms, and weekend escapes from Nairobi.',
     description:
       'Naivasha is ideal for short breaks, corporate retreats, lake activities, and combinations with Hell’s Gate or Crescent Island.',

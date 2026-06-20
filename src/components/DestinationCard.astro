@@ -5,7 +5,16 @@ const { item } = Astro.props as { item: Destination };
 
 <article class="group overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-savanna-sand/60 transition hover:-translate-y-1">
   <a href={`/destinations/${item.slug}`}>
-    <img class="h-56 w-full object-cover transition duration-500 group-hover:scale-105" src={item.image} alt={item.title} loading="lazy" />
+    <div class="relative h-56 overflow-hidden bg-gradient-to-br from-savanna-sand via-savanna-cream to-savanna-gold/50">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_72%_22%,rgba(255,255,255,0.72),transparent_32%),linear-gradient(135deg,rgba(72,101,58,0.2),transparent_58%)]"></div>
+      <img
+        class="relative h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        src={item.image}
+        alt={item.title}
+        loading="lazy"
+        onerror="this.style.display='none'"
+      />
+    </div>
   </a>
   <div class="p-5">
     <p class="text-xs font-black uppercase tracking-[0.18em] text-savanna-clay">{item.region}</p>
