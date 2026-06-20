@@ -52,17 +52,17 @@ const assistantKnowledge = {
 
 <script is:inline id="safari-assistant-knowledge" type="application/json" set:html={JSON.stringify(assistantKnowledge)} />
 
-<div id="safari-assistant" class="fixed bottom-24 left-4 z-50 sm:left-6">
+<div id="safari-assistant" class="fixed bottom-6 left-4 z-50 sm:left-6">
   <button
     id="safari-assistant-toggle"
-    class="grid h-14 w-14 place-items-center rounded-full bg-savanna-bark text-white shadow-[0_18px_35px_rgba(91,53,31,0.28)] ring-4 ring-white transition hover:-translate-y-1 hover:bg-savanna-cocoa"
+    class="grid h-12 w-12 place-items-center rounded-full bg-savanna-bark text-white shadow-[0_18px_35px_rgba(91,53,31,0.28)] ring-4 ring-white transition hover:-translate-y-1 hover:bg-savanna-cocoa"
     type="button"
     aria-label="Open safari assistant"
     aria-expanded="false"
     aria-controls="safari-assistant-panel"
   >
-    <span class="grid h-9 w-9 place-items-center rounded-full bg-savanna-gold text-savanna-bark" aria-hidden="true">
-      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+    <span class="grid h-7 w-7 place-items-center rounded-full bg-savanna-gold text-savanna-bark" aria-hidden="true">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
         <path d="M7.5 18.5 4 20l1.5-3.4A7.7 7.7 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5-3.6 7.5-8 7.5a8.8 8.8 0 0 1-4.5-1Z" />
         <path d="M9 10h.01" />
         <path d="M12 10h.01" />
@@ -73,7 +73,7 @@ const assistantKnowledge = {
 
   <section
     id="safari-assistant-panel"
-    class="pointer-events-none absolute bottom-20 left-0 w-[min(22rem,calc(100vw-2rem))] translate-y-3 overflow-hidden rounded-2xl bg-white opacity-0 shadow-[0_22px_55px_rgba(72,46,28,0.24)] ring-1 ring-savanna-sand/70 transition"
+    class="pointer-events-none absolute bottom-16 left-0 w-[min(22rem,calc(100vw-2rem))] translate-y-3 overflow-hidden rounded-2xl bg-white opacity-0 shadow-[0_22px_55px_rgba(72,46,28,0.24)] ring-1 ring-savanna-sand/70 transition"
     aria-live="polite"
   >
     <div class="bg-savanna-bark p-5 text-white">
