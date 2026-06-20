@@ -55,13 +55,20 @@ const assistantKnowledge = {
 <div id="safari-assistant" class="fixed bottom-24 left-4 z-50 sm:left-6">
   <button
     id="safari-assistant-toggle"
-    class="flex items-center gap-3 rounded-full bg-savanna-bark px-5 py-3 text-sm font-black text-white shadow-[0_18px_35px_rgba(91,53,31,0.28)] ring-4 ring-white transition hover:-translate-y-1 hover:bg-savanna-cocoa"
+    class="grid h-14 w-14 place-items-center rounded-full bg-savanna-bark text-white shadow-[0_18px_35px_rgba(91,53,31,0.28)] ring-4 ring-white transition hover:-translate-y-1 hover:bg-savanna-cocoa"
     type="button"
+    aria-label="Open safari assistant"
     aria-expanded="false"
     aria-controls="safari-assistant-panel"
   >
-    <span class="grid h-8 w-8 place-items-center rounded-full bg-savanna-gold text-savanna-bark">?</span>
-    <span class="hidden sm:inline">Ask Safari Assistant</span>
+    <span class="grid h-9 w-9 place-items-center rounded-full bg-savanna-gold text-savanna-bark" aria-hidden="true">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7.5 18.5 4 20l1.5-3.4A7.7 7.7 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5-3.6 7.5-8 7.5a8.8 8.8 0 0 1-4.5-1Z" />
+        <path d="M9 10h.01" />
+        <path d="M12 10h.01" />
+        <path d="M15 10h.01" />
+      </svg>
+    </span>
   </button>
 
   <section
