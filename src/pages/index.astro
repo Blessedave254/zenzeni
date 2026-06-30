@@ -19,19 +19,31 @@ import { testimonials } from '@data/testimonials';
 
   <section class="bg-white py-16 sm:py-24">
     <div class="container-page">
-      <div class="mx-auto max-w-4xl text-center">
-        <div class="flex items-center justify-center gap-4">
-          <span class="h-px w-10 bg-savanna-gold/70" aria-hidden="true"></span>
-          <p class="font-display text-base font-semibold italic text-savanna-clay sm:text-lg">Your Perfect Kenya Travel Partner</p>
-          <span class="h-px w-10 bg-savanna-gold/70" aria-hidden="true"></span>
+      <div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
+        <div class="max-w-2xl">
+          <div class="flex items-center gap-4">
+            <span class="h-px w-10 bg-savanna-gold/70" aria-hidden="true"></span>
+            <p class="font-display text-base font-semibold italic text-savanna-clay sm:text-lg">Your Perfect Kenya Travel Partner</p>
+          </div>
+          <h2 class="mt-5 font-display text-4xl font-bold leading-tight text-savanna-bark sm:text-5xl">Karibu to Zenzeni Africa Safaris</h2>
+          <p class="mt-6 text-base leading-8 text-stone-600 sm:text-lg sm:leading-9">
+            Step away from the everyday and discover Kenya through a journey shaped around you. From the wildlife-rich plains of the Maasai Mara and Amboseli to Rift Valley lakes, mountain trails, authentic cultural encounters, and the warm Indian Ocean coast, we bring every part of your holiday together with care.
+          </p>
+          <p class="mt-7 font-display text-lg font-semibold italic leading-8 text-savanna-bark sm:text-xl">
+            Travel with Zenzeni Africa Safaris and return home with stories, connections, and memories made to last.
+          </p>
+          <a href="/about" class="btn-primary mt-8">Discover our story</a>
         </div>
-        <h2 class="mt-5 font-display text-4xl font-bold leading-tight text-savanna-bark sm:text-5xl">Karibu to Zenzeni Africa Safaris</h2>
-        <p class="mx-auto mt-6 max-w-3xl text-base leading-8 text-stone-600 sm:text-lg sm:leading-9">
-          Step away from the everyday and discover Kenya through a journey shaped around you. From the wildlife-rich plains of the Maasai Mara and Amboseli to Rift Valley lakes, mountain trails, authentic cultural encounters, and the warm Indian Ocean coast, we bring every part of your holiday together with care.
-        </p>
-        <p class="mx-auto mt-7 max-w-3xl font-display text-lg font-semibold italic leading-8 text-savanna-bark sm:text-xl">
-          Travel with Zenzeni Africa Safaris and return home with stories, connections, and memories made to last.
-        </p>
+        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-savanna-sand lg:aspect-[4/5]">
+          <img
+            class="h-full w-full object-cover"
+            src={destinations[0].image}
+            alt="Wildlife safari landscape in the Maasai Mara"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-savanna-bark/10"></div>
+        </div>
       </div>
     </div>
   </section>
