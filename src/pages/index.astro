@@ -17,6 +17,27 @@ import { testimonials } from '@data/testimonials';
 <BaseLayout title="Kenya Safari Tours, Beach Holidays and Travel Packages" description="Book premium Kenya safaris, beach holidays, corporate excursions, hiking trips, and custom travel packages with Zenzeni Africa Safari.">
   <HeroSlider />
 
+  <section class="bg-white py-20">
+    <div class="container-page grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+      <div>
+        <p class="eyebrow">Your trusted Kenya travel partner</p>
+        <h2 class="section-title mt-3">Welcome, karibu to Zenzeni Africa Safaris</h2>
+      </div>
+      <div class="space-y-5 text-base leading-8 text-stone-700">
+        <p>
+          Step away from the everyday and discover Kenya through journeys shaped around you. From the wildlife-rich plains of the Maasai Mara and Amboseli to Rift Valley lakes, mountain trails, waterfalls, and the warm Indian Ocean coast, we bring every part of your holiday together with care.
+        </p>
+        <p>
+          We plan private safaris, beach holidays, honeymoons, family adventures, corporate retreats, day trips, transfers, and fully custom itineraries. Whether it is your first safari or a return to a place you love, our local team helps you travel with confidence from the first conversation to the final drop-off.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="/about" class="btn-secondary">Meet Zenzeni</a>
+          <a href="/booking" class="btn-primary">Plan your journey</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="py-20">
     <div class="container-page">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -58,16 +79,23 @@ import { testimonials } from '@data/testimonials';
   </section>
 
   <section class="bg-savanna-sky py-20">
-    <div class="container-page grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-      <div>
+    <div class="container-page">
+      <div class="max-w-3xl">
         <p class="eyebrow">Why choose us</p>
-        <h2 class="section-title mt-3">Local knowledge, premium planning, clear communication.</h2>
-        <p class="mt-5 text-sm leading-7 text-stone-700">Zenzeni Africa Safari designs journeys with reliable partners, thoughtful routing, flexible support, and honest guidance so travellers feel looked after from first enquiry to final transfer.</p>
+        <h2 class="section-title mt-3">Thoughtful journeys, backed by people who know Kenya</h2>
+        <p class="mt-5 leading-8 text-stone-700">We combine practical local knowledge with attentive planning, dependable partners, and honest guidance so every guest feels looked after before, during, and after the journey.</p>
       </div>
-      <div class="grid gap-4 sm:grid-cols-2">
-        {['Trusted Kenya-based planning', 'Private and group options', 'M-Pesa and card-ready booking', 'Safari, coast, corporate, and custom trips'].map((item) => (
-          <div class="rounded-2xl bg-white p-5 shadow-soft">
-            <p class="font-bold text-savanna-bark">{item}</p>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { title: 'We know the way', subtitle: 'Local expertise', text: 'Routes, seasons, parks, stays, and transfers are planned with on-the-ground understanding.' },
+          { title: 'We listen first', subtitle: 'Personal planning', text: 'Your pace, interests, group, and budget guide the itinerary instead of a one-size-fits-all template.' },
+          { title: 'We stay close', subtitle: 'Reliable support', text: 'Clear communication and practical assistance keep your trip running smoothly from enquiry to return.' },
+          { title: 'We value your trust', subtitle: 'Fair, clear choices', text: 'Straightforward inclusions, carefully selected partners, and flexible options help you book confidently.' }
+        ].map((item) => (
+          <div class="rounded-lg border border-white/70 bg-white p-6 shadow-soft">
+            <p class="eyebrow">{item.subtitle}</p>
+            <h3 class="mt-3 font-display text-2xl font-bold text-savanna-bark">{item.title}</h3>
+            <p class="mt-3 text-sm leading-7 text-stone-600">{item.text}</p>
           </div>
         ))}
       </div>
