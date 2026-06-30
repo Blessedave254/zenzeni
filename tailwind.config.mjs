@@ -16,7 +16,7 @@ export default {
         }
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'Georgia', 'Cambria', 'serif'],
+        display: ['Lora', 'Georgia', 'Cambria', 'serif'],
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       boxShadow: {
