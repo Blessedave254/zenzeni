@@ -10,16 +10,17 @@ export const site = {
   social: {
     facebook: 'https://facebook.com/zenzeniafricasafari',
     instagram: 'https://instagram.com/zenzeniafricasafari',
-    x: 'https://x.com/zenzenisafari'
+    x: 'https://x.com/zenzenisafari',
+    tripadvisor: 'https://www.tripadvisor.com/'
   }
 };
 
 export const navigation = [
-  { label: 'Home', href: '/' },
-  { label: 'Packages', href: '/packages' },
-  { label: 'Destinations', href: '/destinations' },
-  { label: 'Activities', href: '/activities' },
-  { label: 'Blogs', href: '/blog' },
-  { label: 'FAQ', href: '/faq' },
-  { label: 'Contact', href: '/contact' }
+  { key: 'home', href: '/' },
+  { key: 'packages', href: '/packages' },
+  { key: 'destinations', href: '/destinations' },
+  { key: 'activities', href: '/activities' },
+  { key: 'blogs', href: '/blog' },
+  { key: 'faq', href: '/faq' },
+  { key: 'contact', href: '/contact' }
 ];

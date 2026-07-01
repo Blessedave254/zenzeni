@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HomePage from '@components/HomePage.astro';
+import { type Locale } from '@lib/i18n';
+
+const locale = 'sw' as Locale;
+---
+
+<BaseLayout
+  title="Safari za Kenya, mapumziko ya pwani na vifurushi vya safari"
+  description="Weka nafasi ya safari za Kenya, mapumziko ya ufukweni, safari za kampuni, na safari maalum na Zenzeni Africa Safari."
+  canonical="/sw/"
+>
+  <HomePage locale={locale} />
+</BaseLayout>

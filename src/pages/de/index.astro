@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HomePage from '@components/HomePage.astro';
+import { type Locale } from '@lib/i18n';
+
+const locale = 'de' as Locale;
+---
+
+<BaseLayout
+  title="Kenia-Safaris, Strandurlaube und Reisepakete"
+  description="Buchen Sie Premium-Kenia-Safaris, Strandurlaube, Firmenausflüge und individuelle Reisen mit Zenzeni Africa Safari."
+  canonical="/de/"
+>
+  <HomePage locale={locale} />
+</BaseLayout>

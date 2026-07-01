@@ -7,6 +7,7 @@ type Props = {
   image?: string;
   canonical?: string;
   type?: string;
+  alternates?: Array<{ hrefLang: string; href: string }>;
   schema?: Record<string, unknown> | Record<string, unknown>[];
 };
 
@@ -16,6 +17,7 @@ const {
   image = 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80',
   canonical = Astro.url.pathname,
   type = 'website',
+  alternates = [],
   schema
 } = Astro.props;
 
@@ -27,6 +29,7 @@ const schemaItems = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalUrl} />
+{alternates.map((item) => <link rel="alternate" hreflang={item.hrefLang} href={new URL(item.href, site.url).toString()} />)}
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content={type} />

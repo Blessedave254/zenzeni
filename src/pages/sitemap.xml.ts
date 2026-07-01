@@ -6,6 +6,9 @@ import { site } from '@data/site';
 
 const staticPages = [
   '',
+  'sw',
+  'de',
+  'fr',
   'about',
   'packages',
   'destinations',

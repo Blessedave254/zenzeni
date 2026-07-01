@@ -1,4 +1,6 @@
 ---
+import { type Locale, homeCopy, ui } from '@lib/i18n';
+
 const slides = [
   {
     image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1800&q=80',
@@ -13,6 +15,10 @@ const slides = [
     label: 'Kenya coast beach holidays'
   }
 ];
+
+const { locale = 'en' } = Astro.props as { locale?: Locale };
+const copy = homeCopy[locale];
+const shell = ui[locale];
 ---
 
 <section class="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-savanna-bark text-white">
@@ -31,16 +37,16 @@ const slides = [
   </div>
   <div class="container-page relative flex min-h-[calc(100vh-5rem)] items-center py-20">
     <div class="max-w-3xl">
-      <p class="eyebrow text-savanna-gold">Private Kenya safari and coast holidays</p>
+      <p class="eyebrow text-savanna-gold">{copy.heroEyebrow}</p>
       <h1 class="mt-5 font-display text-5xl font-bold leading-tight text-white sm:text-6xl lg:text-7xl">
-        Explore Kenya with trusted local safari planners.
+        {copy.heroTitle}
       </h1>
       <p class="mt-6 max-w-2xl text-lg leading-8 text-white/85">
-        Premium wildlife safaris, beach escapes, corporate excursions, and custom itineraries across Kenya’s most memorable destinations.
+        {copy.heroDescription}
       </p>
       <div class="mt-8 flex flex-wrap gap-4">
-        <a href="/packages" class="btn-primary bg-savanna-gold text-savanna-bark hover:bg-white">View packages</a>
-        <a href="/booking" class="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white hover:text-savanna-bark">Start booking</a>
+        <a href="/packages" class="btn-primary bg-savanna-gold text-savanna-bark hover:bg-white">{shell.actions.browsePackages}</a>
+        <a href="/booking" class="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white hover:text-savanna-bark">{copy.heroSecondary}</a>
       </div>
     </div>
   </div>

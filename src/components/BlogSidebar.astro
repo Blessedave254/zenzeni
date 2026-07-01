@@ -3,8 +3,11 @@ import type { BlogPost } from '@data/blogs';
 import type { TourPackage } from '@data/packages';
 import { blogs } from '@data/blogs';
 import { packages } from '@data/packages';
+import { getLocaleFromPathname, type Locale, ui } from '@lib/i18n';
 
 const { currentSlug = '' } = Astro.props as { currentSlug?: string };
+const locale = getLocaleFromPathname(Astro.url.pathname) as Locale;
+const copy = ui[locale];
 
 const latestPosts = [...blogs]
   .filter((post) => post.slug !== currentSlug)
@@ -17,14 +20,14 @@ const tags = [...new Set(blogs.flatMap((post) => post.tags))].sort();
 
 <aside class="space-y-6 lg:sticky lg:top-28">
   <section class="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-savanna-sand/60">
-    <p class="eyebrow">Latest posts</p>
+    <p class="eyebrow">{copy.sidebar.latestPosts}</p>
     <div class="mt-5 grid gap-5">
       {latestPosts.map((post) => (
         <a class="group grid grid-cols-[5rem_1fr] gap-4" href={`/blog/${post.slug}`}>
           <img class="h-20 w-20 rounded-xl object-cover" src={post.image} alt={post.title} loading="lazy" />
           <span>
             <span class="block text-xs font-bold uppercase tracking-[0.14em] text-savanna-clay">
-              {new Date(post.date).toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
+              {new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(post.date))}
             </span>
             <span class="mt-1 block text-sm font-bold leading-5 text-savanna-bark group-hover:text-savanna-clay">{post.title}</span>
           </span>
@@ -34,13 +37,13 @@ const tags = [...new Set(blogs.flatMap((post) => post.tags))].sort();
   </section>
 
   <section class="rounded-2xl bg-white p-6 shadow-soft ring-1 ring-savanna-sand/60">
-    <p class="eyebrow">Latest packages</p>
+    <p class="eyebrow">{copy.sidebar.latestPackages}</p>
     <div class="mt-5 grid gap-4">
       {latestPackages.map((item) => (
         <a class="rounded-xl border border-savanna-sand/70 p-4 transition hover:border-savanna-gold hover:bg-savanna-cream" href={`/packages/${item.slug}`}>
           <span class="block text-sm font-bold text-savanna-bark">{item.title}</span>
           <span class="mt-1 block text-xs font-bold uppercase tracking-[0.14em] text-savanna-clay">
-            {item.location} • {item.durationDays} {item.durationDays === 1 ? 'day' : 'days'} • From ${item.price}
+            {item.location} • {item.durationDays} {item.durationDays === 1 ? (locale === 'sw' ? 'siku' : locale === 'de' ? 'Tag' : locale === 'fr' ? 'jour' : 'day') : (locale === 'sw' ? 'siku' : locale === 'de' ? 'Tage' : locale === 'fr' ? 'jours' : 'days')} • {copy.actions.from} ${item.price}
           </span>
         </a>
       ))}
@@ -48,7 +51,7 @@ const tags = [...new Set(blogs.flatMap((post) => post.tags))].sort();
   </section>
 
   <section class="rounded-2xl bg-savanna-sky p-6">
-    <p class="eyebrow">Tags</p>
+    <p class="eyebrow">{copy.sidebar.tags}</p>
     <div class="mt-5 flex flex-wrap gap-2">
       {tags.map((tag) => (
         <a class="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-savanna-bark transition hover:bg-savanna-gold" href={`/blog?tag=${encodeURIComponent(tag)}`}>

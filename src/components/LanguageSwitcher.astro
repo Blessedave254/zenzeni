@@ -1,0 +1,62 @@
+---
+import { localeNames, localeShortNames, localizePath, supportedLocales, type Locale, ui } from '@lib/i18n';
+
+const { locale = 'en', compact = false, mobile = false } = Astro.props as { locale?: Locale; compact?: boolean; mobile?: boolean };
+---
+
+{mobile ? (
+  <details class="group rounded-2xl border border-savanna-sand bg-white p-2 shadow-soft">
+    <summary class="list-none rounded-xl px-3 py-2 text-[0.65rem] font-black uppercase tracking-[0.18em] text-stone-500 transition hover:bg-savanna-cream">
+      <span class="flex items-center justify-between gap-3">
+        <span>{ui[locale].language}</span>
+        <span aria-hidden="true" class="text-[0.75rem] leading-none transition group-open:rotate-180">⌄</span>
+      </span>
+    </summary>
+    <div class="mt-2 grid gap-1">
+      {supportedLocales.map((item: Locale) => (
+        <a
+          class:list={[
+            'rounded-xl px-3 py-2 text-sm font-bold transition',
+            item === locale
+              ? 'bg-savanna-bark text-white'
+              : 'text-stone-700 hover:bg-savanna-cream hover:text-savanna-bark'
+          ]}
+          href={localizePath('/', item)}
+          aria-label={`${localeNames[item]}`}
+          title={localeNames[item]}
+        >
+          {compact ? localeShortNames[item] : localeNames[item]}
+        </a>
+      ))}
+    </div>
+  </details>
+) : (
+  <details class="group relative">
+    <summary class="list-none rounded-full border border-savanna-sand bg-white px-3 py-2 text-sm font-black uppercase tracking-[0.18em] text-savanna-bark shadow-sm transition hover:border-savanna-gold hover:bg-savanna-cream">
+      <span class="inline-flex items-center gap-2">
+        <span>{localeShortNames[locale]}</span>
+        <span aria-hidden="true" class="text-[0.65rem] leading-none transition group-open:rotate-180">⌄</span>
+      </span>
+    </summary>
+    <div class="absolute right-0 z-20 mt-2 w-52 overflow-hidden rounded-2xl border border-savanna-sand bg-white p-2 shadow-soft">
+      <p class="px-3 py-2 text-[0.65rem] font-black uppercase tracking-[0.18em] text-stone-500">{ui[locale].language}</p>
+      <div class="grid gap-1">
+        {supportedLocales.map((item: Locale) => (
+          <a
+            class:list={[
+              'rounded-xl px-3 py-2 text-sm font-bold transition',
+              item === locale
+                ? 'bg-savanna-bark text-white'
+                : 'text-stone-700 hover:bg-savanna-cream hover:text-savanna-bark'
+            ]}
+            href={localizePath('/', item)}
+            aria-label={`${localeNames[item]}`}
+            title={localeNames[item]}
+          >
+            {compact ? localeShortNames[item] : localeNames[item]}
+          </a>
+        ))}
+      </div>
+    </div>
+  </details>
+)}

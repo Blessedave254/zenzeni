@@ -3,6 +3,10 @@ import { activities } from '@data/activities';
 import { destinations } from '@data/destinations';
 import { faqs } from '@data/faqs';
 import { packages } from '@data/packages';
+import { type Locale, ui } from '@lib/i18n';
+
+const { locale = 'en' } = Astro.props as { locale?: Locale };
+const assistantCopy = ui[locale].assistant;
 
 const assistantKnowledge = {
   packages: packages.map((item) => ({
@@ -52,12 +56,12 @@ const assistantKnowledge = {
 
 <script is:inline id="safari-assistant-knowledge" type="application/json" set:html={JSON.stringify(assistantKnowledge)} />
 
-<div id="safari-assistant" class="fixed bottom-6 left-4 z-50 sm:left-6">
+<div id="safari-assistant" class="fixed bottom-6 left-4 z-50 sm:left-6" data-locale={locale}>
   <button
     id="safari-assistant-toggle"
     class="grid h-12 w-12 place-items-center rounded-full bg-savanna-bark text-white shadow-[0_18px_35px_rgba(91,53,31,0.28)] ring-4 ring-white transition hover:-translate-y-1 hover:bg-savanna-cocoa"
     type="button"
-    aria-label="Open safari assistant"
+    aria-label={locale === 'sw' ? 'Fungua msaidizi wa safari' : locale === 'de' ? 'Safari-Assistent öffnen' : locale === 'fr' ? 'Ouvrir l’assistant voyage' : 'Open safari assistant'}
     aria-expanded="false"
     aria-controls="safari-assistant-panel"
   >
@@ -80,24 +84,24 @@ const assistantKnowledge = {
       <div class="flex items-start justify-between gap-4">
         <div>
           <p class="text-xs font-black uppercase tracking-[0.18em] text-savanna-gold">Zenzeni assistant</p>
-          <h2 class="mt-2 font-display text-2xl font-bold">Ask about trips</h2>
+          <h2 class="mt-2 font-display text-2xl font-bold">{assistantCopy.title}</h2>
         </div>
-        <button id="safari-assistant-close" class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/10 text-xl font-bold leading-none hover:bg-white/20" type="button" aria-label="Close safari assistant">
+        <button id="safari-assistant-close" class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/10 text-xl font-bold leading-none hover:bg-white/20" type="button" aria-label={locale === 'sw' ? 'Funga msaidizi' : locale === 'de' ? 'Assistent schließen' : locale === 'fr' ? 'Fermer l’assistant' : 'Close safari assistant'}>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <p class="mt-3 text-sm leading-6 text-white/75">Packages, destinations, activities, prices, durations, and fun facts.</p>
+      <p class="mt-3 text-sm leading-6 text-white/75">{assistantCopy.subtitle}</p>
     </div>
 
     <div id="safari-assistant-messages" class="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain bg-savanna-cream p-4">
       <div class="rounded-2xl bg-white p-4 text-sm leading-6 text-stone-700 shadow-soft">
-        Hi, I’m your safari planning helper. Ask me things like “best honeymoon package” or “tell me about Lake Nakuru.”
+        {assistantCopy.greeting}
       </div>
     </div>
 
     <div class="shrink-0 border-t border-savanna-sand bg-white p-4">
       <div class="mb-3 flex flex-wrap gap-2">
-        {['Honeymoon package?', 'One day safari?', 'Tell me about Naivasha'].map((prompt) => (
+        {[assistantCopy.promptHoneymoon, assistantCopy.promptSafari, assistantCopy.promptNaivasha].map((prompt) => (
           <button class="assistant-prompt rounded-full bg-savanna-cream px-3 py-2 text-xs font-bold text-savanna-bark hover:bg-savanna-sand" type="button" data-prompt={prompt}>
             {prompt}
           </button>
@@ -108,10 +112,10 @@ const assistantKnowledge = {
           id="safari-assistant-input"
           class="min-w-0 flex-1 rounded-full border border-savanna-sand bg-savanna-cream px-4 py-3 text-sm text-stone-800"
           name="question"
-          placeholder="Ask a travel question"
+          placeholder={assistantCopy.placeholder}
           autocomplete="off"
         />
-        <button class="btn-primary px-4 py-3" type="submit">Send</button>
+        <button class="btn-primary px-4 py-3" type="submit">{assistantCopy.send}</button>
       </form>
     </div>
   </section>
@@ -132,6 +136,7 @@ const assistantKnowledge = {
   type AssistantItem = Record<string, any>;
 
   const root = document.getElementById('safari-assistant');
+  const locale = root?.dataset.locale ?? 'en';
   const toggle = document.getElementById('safari-assistant-toggle');
   const close = document.getElementById('safari-assistant-close');
   const panel = document.getElementById('safari-assistant-panel');
@@ -140,6 +145,63 @@ const assistantKnowledge = {
   const messages = document.getElementById('safari-assistant-messages');
   const knowledgeNode = document.getElementById('safari-assistant-knowledge');
   const knowledge = knowledgeNode?.textContent ? JSON.parse(knowledgeNode.textContent) : {};
+
+  const ui = {
+    en: {
+      hello: 'Hello!',
+      greeting: 'Hello! Welcome to Zenzeni Africa Safaris. How are you doing today, and what kind of trip are you dreaming about?',
+      wellbeing: 'Hello! I am doing great and ready to help you plan something memorable. How are you doing today, and are you thinking safari, beach, honeymoon, team building, or a quick day trip?',
+      fallback: 'I can help with Kenya safari packages, destinations, activities, prices, durations, beach holidays, honeymoons, team building, and booking questions.',
+      browsePackages: 'Browse packages',
+      exploreDestinations: 'Explore destinations',
+      startBooking: 'Start booking',
+      viewActivities: 'View activities',
+      readFaqs: 'Read all FAQs',
+      funFact: 'Kenya is special because you can pair big wildlife areas, Rift Valley lakes, forests, mountains, and Indian Ocean beaches in one itinerary.',
+      helperLabel: 'safari planning helper'
+    },
+    sw: {
+      hello: 'Habari!',
+      greeting: 'Karibu to Zenzeni Africa Safaris. Uko aje leo, na unapanga aina gani ya safari?',
+      wellbeing: 'Habari! Ninaendelea vizuri na niko tayari kukusaidia kupanga safari ya kukumbukwa. Uko aje leo, na unafikiria safari ya wanyamapori, ufukweni, honeymoon, team building, au safari ya siku moja?',
+      fallback: 'Ninaweza kukusaidia kuhusu vifurushi vya safari, vivutio, shughuli, bei, muda, safari za ufukweni, honeymoon, team building, na maswali ya kuweka nafasi.',
+      browsePackages: 'Vinjari vifurushi',
+      exploreDestinations: 'Gundua vivutio',
+      startBooking: 'Anza kuweka nafasi',
+      viewActivities: 'Tazama shughuli',
+      readFaqs: 'Soma maswali yote',
+      funFact: 'Kenya ni ya kipekee kwa sababu unaweza kuchanganya mbuga za wanyama, maziwa ya Rift Valley, misitu, milima, na fukwe za Bahari ya Hindi katika safari moja.',
+      helperLabel: 'msaidizi wa kupanga safari'
+    },
+    de: {
+      hello: 'Hallo!',
+      greeting: 'Willkommen bei Zenzeni Africa Safaris. Wie geht es Ihnen heute, und welche Reise planen Sie?',
+      wellbeing: 'Hallo! Mir geht es gut und ich helfe Ihnen gern bei der Reiseplanung. Wie geht es Ihnen heute, und denken Sie an Safari, Strand, Honeymoon, Teambuilding oder einen Tagesausflug?',
+      fallback: 'Ich kann bei Kenia-Safaripaketen, Reisezielen, Aktivitäten, Preisen, Dauer, Strandurlauben, Honeymoons, Teambuilding und Buchungsfragen helfen.',
+      browsePackages: 'Pakete ansehen',
+      exploreDestinations: 'Reiseziele ansehen',
+      startBooking: 'Buchung starten',
+      viewActivities: 'Aktivitäten ansehen',
+      readFaqs: 'Alle FAQs lesen',
+      funFact: 'Kenia ist besonders, weil Sie Wildgebiete, Seen im Rift Valley, Wälder, Berge und Strände am Indischen Ozean in einer Reise verbinden können.',
+      helperLabel: 'Reisehelfer'
+    },
+    fr: {
+      hello: 'Bonjour!',
+      greeting: 'Bienvenue chez Zenzeni Africa Safaris. Comment allez-vous aujourd’hui, et quel voyage imaginez-vous ?',
+      wellbeing: 'Bonjour ! Je vais très bien et je suis prêt à vous aider à organiser quelque chose de mémorable. Comment allez-vous aujourd’hui, et pensez-vous à un safari, à la plage, à une lune de miel, à un team building ou à une excursion d’une journée ?',
+      fallback: 'Je peux vous aider pour les forfaits safari au Kenya, les destinations, les activités, les prix, les durées, les séjours plage, les lunes de miel, le team building et les réservations.',
+      browsePackages: 'Voir les forfaits',
+      exploreDestinations: 'Voir les destinations',
+      startBooking: 'Commencer la réservation',
+      viewActivities: 'Voir les activités',
+      readFaqs: 'Lire toutes les FAQ',
+      funFact: 'Le Kenya est unique car on peut combiner grandes réserves sauvages, lacs de la Vallée du Rift, forêts, montagnes et plages de l’océan Indien dans un seul itinéraire.',
+      helperLabel: 'assistant voyage'
+    }
+  } as const;
+
+  const t = ui[locale as keyof typeof ui] ?? ui.en;
 
   const normalize = (value: string) => value.toLowerCase().replace(/[^\w\s-]/g, ' ');
   const words = (value: string) => normalize(value).split(/\s+/).filter(Boolean);
@@ -151,22 +213,20 @@ const assistantKnowledge = {
       return score;
     }, 0);
   };
-  const hasGreeting = (question: string) => /\b(hi|hello|hey|jambo|sasa|mambo|habari|good morning|good afternoon|good evening)\b/.test(normalize(question));
-  const hasWellbeingQuestion = (question: string) => /\b(how are you|how is your day|uko aje|how are things)\b/.test(normalize(question));
+  const hasGreeting = (question: string) => /\b(hi|hello|hey|jambo|sasa|mambo|habari|good morning|good afternoon|good evening|bonjour|salut|hallo)\b/.test(normalize(question));
+  const hasWellbeingQuestion = (question: string) => /\b(how are you|how is your day|uko aje|how are things|comment allez-vous|wie geht es dir|wie geht es ihnen)\b/.test(normalize(question));
   const hasTravelIntent = (question: string) =>
     /\b(package|packages|safari|trip|tour|destination|destinations|price|cost|book|booking|pay|payment|mpesa|card|honeymoon|beach|diani|watamu|malindi|mara|maasai|amboseli|tsavo|nakuru|naivasha|hells gate|mount kenya|aberdare|karura|thomson|fourteen|wildlife|hiking|waterfall|team building|corporate|airport|hotel|culture|photography)\b/.test(
       normalize(question)
     );
 
   const greetingAnswer = (askedWellbeing = false): AssistantAnswer => ({
-    answer: askedWellbeing
-      ? 'Hello! I am doing great and ready to help you plan something memorable. How are you doing today, and are you thinking safari, beach, honeymoon, team building, or a quick day trip?'
-      : 'Hello! Welcome to Zenzeni Africa Safaris. How are you doing today, and what kind of trip are you dreaming about?',
-    funFact: 'Kenya is special because you can pair big wildlife areas, Rift Valley lakes, forests, mountains, and Indian Ocean beaches in one itinerary.',
+    answer: askedWellbeing ? t.wellbeing : t.greeting,
+    funFact: t.funFact,
     links: [
-      { label: 'Browse packages', href: '/packages', meta: 'Safari, beach, hiking, and corporate trips' },
-      { label: 'Explore destinations', href: '/destinations', meta: 'Parks, beaches, forests, waterfalls, and mountains' },
-      { label: 'Start booking', href: '/booking', meta: 'Share dates, group size, and special requests' }
+      { label: t.browsePackages, href: '/packages', meta: 'Safari, beach, hiking, and corporate trips' },
+      { label: t.exploreDestinations, href: '/destinations', meta: 'Parks, beaches, forests, waterfalls, and mountains' },
+      { label: t.startBooking, href: '/booking', meta: 'Share dates, group size, and special requests' }
     ]
   });
 
@@ -280,7 +340,7 @@ const assistantKnowledge = {
     return {
       answer: `For ${match.item.title.toLowerCase()}, Zenzeni Africa Safaris can help with planning, routing, and package matching. ${match.item.description}`,
       funFact: 'A good Kenya itinerary often combines two moods: active adventure first, then slower relaxation at the coast or a lake.',
-      links: [{ label: 'View activities', href: '/activities', meta: 'Explore safari, coast, hiking, corporate, and cultural options' }]
+      links: [{ label: t.viewActivities, href: '/activities', meta: 'Explore safari, coast, hiking, corporate, and cultural options' }]
     };
   };
 
@@ -295,7 +355,7 @@ const assistantKnowledge = {
     return {
       answer: match.item.answer,
       funFact: 'Clear travel planning saves time on safari because transfers, park timing, meals, and lodge check-ins all shape the guest experience.',
-      links: [{ label: 'Read all FAQs', href: '/faq', meta: match.item.question }]
+      links: [{ label: t.readFaqs, href: '/faq', meta: match.item.question }]
     };
   };
 
@@ -309,13 +369,12 @@ const assistantKnowledge = {
     const activity = activityAnswer(question);
     const faq = faqAnswer(question);
     const fallbackAnswer = {
-      answer:
-        'I can help with Kenya safari packages, destinations, activities, prices, durations, beach holidays, honeymoons, team building, and booking questions.',
-      funFact: 'Kenya trips are often strongest when they combine contrast: savanna wildlife, Rift Valley scenery, and Indian Ocean beach time.',
+      answer: t.fallback,
+      funFact: t.funFact,
       links: [
-        { label: 'Browse packages', href: '/packages', meta: 'Safari, beach, hiking, and corporate trips' },
-        { label: 'Explore destinations', href: '/destinations', meta: 'Parks, beaches, forests, waterfalls, and mountains' },
-        { label: 'Start booking', href: '/booking', meta: 'Send your travel dates and group details' }
+        { label: t.browsePackages, href: '/packages', meta: 'Safari, beach, hiking, and corporate trips' },
+        { label: t.exploreDestinations, href: '/destinations', meta: 'Parks, beaches, forests, waterfalls, and mountains' },
+        { label: t.startBooking, href: '/booking', meta: 'Send your travel dates and group details' }
       ]
     };
 
@@ -327,7 +386,7 @@ const assistantKnowledge = {
     if (hasGreeting(question)) {
       return {
         ...answer,
-        answer: `Hello! ${answer.answer}`
+        answer: `${t.hello} ${answer.answer}`
       };
     }
 

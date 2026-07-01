@@ -1,6 +1,8 @@
 ---
 import type { BlogPost } from '@data/blogs';
-const { item } = Astro.props as { item: BlogPost };
+import { type Locale } from '@lib/i18n';
+
+const { item, locale = 'en' } = Astro.props as { item: BlogPost; locale?: Locale };
 ---
 
 <article class="group overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-savanna-sand/60">
@@ -8,7 +10,9 @@ const { item } = Astro.props as { item: BlogPost };
     <img class="h-52 w-full object-cover transition duration-500 group-hover:scale-105" src={item.image} alt={item.title} loading="lazy" />
   </a>
   <div class="p-5">
-    <p class="text-xs font-bold uppercase tracking-[0.16em] text-savanna-clay">{new Date(item.date).toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+    <p class="text-xs font-bold uppercase tracking-[0.16em] text-savanna-clay">
+      {new Intl.DateTimeFormat(locale, { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(item.date))}
+    </p>
     <h3 class="mt-2 font-display text-2xl font-bold text-savanna-bark"><a href={`/blog/${item.slug}`}>{item.title}</a></h3>
     <p class="mt-3 text-sm leading-6 text-stone-600">{item.excerpt}</p>
   </div>
